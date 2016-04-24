@@ -4,11 +4,15 @@ import json
 API = 'https://api.api.ai/v1/'
 
 AUTH = {'Authorization': ''}
+master = None
 
 
 
-def configure(key):
+def configure(key, a_master):
     AUTH['Authorization'] = 'Bearer ' + key
+    
+    global master
+    master = a_master
 
 
 
@@ -33,8 +37,12 @@ def ask(sender, msg):
         except KeyError:
             # the action was not implemented, let's see
             # what the api.ai propose
+            response = result['fulfillment']['speech']
             print('Response : '+result['fulfillment']['speech'])
-            return (result['fulfillment'])['speech']
+            if result['action'] == 'input.unknown':
+                response += 'I will ask my master @{} to teach me that :)'.format(master)
+
+            return response
     else:
         print('AI::NOOK')
         print(r.text)

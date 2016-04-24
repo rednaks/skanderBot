@@ -19,8 +19,8 @@ def configure(a_key):
     global API
     API += a_key
 
-def sendMessage(user, text):
-    url = API + '/sendMessage?chat_id={}&text={}'.format(user, text)
+def sendMessage(user, text, msg_id):
+    url = API + '/sendMessage?chat_id={}&text={}&reply_to_message_id={}'.format(user, text, msg_id)
 
     res = requests.get(url)
 
