@@ -1,13 +1,20 @@
 import requests
 import json
+import os
 
 import ai
 import tg
 from tg import getUpdates, sendMessage
 
+
+root = os.path.dirname(__file__)
+config_path = 'bot.conf'
+
 def load_config():
     config = None
-    with open('bot.conf', 'r') as f:
+
+    print(os.path.join(root, config_path))
+    with open(os.path.join(root, config_path), 'r') as f:
         config = json.load(f)
 
     return config
