@@ -16,25 +16,25 @@ def ask(sender, msg):
 
     url = API + 'query?v=20150910&lang=en&query='+ msg
 
-    print url
+    print(url)
     r = requests.get(url, headers=AUTH)
 
     if r.ok :
-        print "AI::OK"
+        print("AI::OK")
         result =  r.json()['result']
 
 
         msg = "Sorry I don't understand yet what you're saying, pealse ask my master @rednaks to implement it."
         try: 
-            print result
-            print result['action']
+            print(result)
+            print(result['action'])
             msg =  ACTIONS[result['action']](sender)
             return msg
         except KeyError:
             return msg
     else:
-        print 'AI::NOOK'
-        print r.text
+        print('AI::NOOK')
+        print(r.text)
 
 
 
