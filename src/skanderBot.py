@@ -15,15 +15,23 @@ def load_config():
 def updates_loop():
     update_id = None
     while True:
-        updates = getUpdates(update_id)
+        try:
+            updates = getUpdates(update_id)
 
-        for u in updates['result']:
-            update_id = u['update_id']
-            user = u['message']['from']['username']
-            msg = '{}: {}'.format(user, u['message']['text'].encode('utf8'))
-            tg.Logger.info(msg)
-            resp = ai.ask(user, msg)
-            sendMessage(u['message']['chat']['id'], resp)
+            for u in updates['result']:
+                update_id = u['update_id']
+                user = u['message']['from']['username']
+                msg = '{}: {}'.format(user, u['message']['text'].encode('utf8'))
+                tg.Logger.info(msg)
+                resp = ai.ask(user, msg)
+                try:
+                    sendMessage(u['message']['chat']['id'], resp)
+                except Exception as e:
+                    tg.Logger.err('Something wrong happend with the networking '
+                            + 'while replying ... we will retry later.')
+                    updates['result'].append(u)
+        except Exception as e:
+            tg.Logger.err("Networking error ...")
 
 
 if __name__ == '__main__':
