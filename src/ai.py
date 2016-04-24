@@ -31,7 +31,10 @@ def ask(sender, msg):
             msg =  ACTIONS[result['action']](sender)
             return msg
         except KeyError:
-            return msg
+            # the action was not implemented, let's see
+            # what the api.ai propose
+            print('Response : '+result['fulfillment']['speech'])
+            return (result['fulfillment'])['speech']
     else:
         print('AI::NOOK')
         print(r.text)
