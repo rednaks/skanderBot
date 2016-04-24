@@ -1,9 +1,13 @@
 # install:
+<pre>
    cd repo
-   virtualenv . -p($which python2)
+   virtualenv .
    source bin/activate
+</pre>
 
 
 # usage:
+<pre>
    cd src
    python skanderBot.py
+</pre>
